@@ -1,8 +1,10 @@
 .profile {
     max-width: 880px;
+    min-height: 120px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 120px 1fr 42px 150px;
+    grid-template-columns: 120px 1fr 24px 150px;
     grid-template-rows: 60px 1fr;
+    column-gap: 26.5px 25px 25px;
     justify-content: space-between;
 }
