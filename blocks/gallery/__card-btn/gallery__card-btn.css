@@ -6,3 +6,7 @@
     margin: 30px 20px 30px 0;
     align-self: center;
 }
+
+.gallery__card-btn:hover {
+    opacity: 0.5;
+}

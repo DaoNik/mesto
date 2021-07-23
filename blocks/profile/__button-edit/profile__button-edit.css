@@ -1,8 +1,13 @@
 .profile__button-edit {
+    display: block;
     background-color: black;
     width: 24px; 
     height: 24px;
     box-sizing: border-box;
     border: 1px solid #fff;
     align-self: center;
+}
+
+.profile__button-edit:hover {
+    opacity: 0.6;
 }
