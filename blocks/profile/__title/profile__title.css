@@ -6,3 +6,10 @@
     align-self: end;
     justify-self: start;
 }
+
+@media screen and (max-width: 900px) {
+    .profile__title {
+        font-size: 27px;
+        line-height: 33px;
+    }
+}

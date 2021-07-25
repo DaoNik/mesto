@@ -6,3 +6,11 @@
     order: 2;
     grid-column: 1/ -1;
 }
+
+@media screen and (max-width: 900px) {
+    .profile__subtitle {
+        text-align: center;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

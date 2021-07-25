@@ -17,3 +17,12 @@
 .edit-form__btn:hover {
     opacity: 0.8;
 }
+
+@media screen and (max-width: 600px) {
+    .edit-form__btn {
+        font-size: 14px;
+        line-height: 17px;
+        max-width: 238px;
+        margin-top: 15px;
+    }
+}

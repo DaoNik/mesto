@@ -9,3 +9,9 @@
     padding: 0;
     padding-bottom: 13px;
 }
+
+@media screen and (max-width: 600px) {
+    .edit-form__input-text {
+        max-width: 238px;
+    }
+}

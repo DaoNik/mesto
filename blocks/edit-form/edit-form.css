@@ -13,3 +13,10 @@
     font-weight: normal;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
 }
+
+@media screen and (max-width: 600px) {
+    .edit-form {
+        max-width: 288px;
+        left: calc(50% - 288px/2);
+    }
+}
