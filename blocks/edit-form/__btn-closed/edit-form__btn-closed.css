@@ -11,6 +11,7 @@
 
 .edit-form__btn-closed:hover {
     opacity: 0.6;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

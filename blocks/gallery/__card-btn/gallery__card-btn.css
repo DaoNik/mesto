@@ -15,4 +15,5 @@
 
 .gallery__card-btn:hover {
     opacity: 0.5;
+    cursor: pointer;
 }
