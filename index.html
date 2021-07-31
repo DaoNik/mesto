@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Mesto - наш ответ Instagram</title>
     <link rel="stylesheet" href="./pages/index.css">
 </head>
+
 <body class="page">
     <header class="header">
         <a href="#" class="header__link">
@@ -19,65 +21,70 @@
             <div class="profile__wrapper">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
                 <p class="profile__subtitle">Исследователь океана</p>
-                <button type="button" class="profile__button-edit">
+                <button type="button" class="profile__button-edit" aria-label="Кнопка для редактирования имени пользователя и рода деятельности">
                     <img src="./images/pen.svg" alt="Значок редактирования - ручка">
                 </button>
             </div>
-            
-            
+
+
             <img class="profile__avatar" src="./images/Avatar.png" alt="Аватар профиля">
             <button type="button" class="profile__button-add">
-                <img src="./images/plus.png" alt="Добавить запись" class="profile__image-plus">
+                <img src="./images/plus.svg" alt="Добавить запись" class="profile__image-plus">
             </button>
         </section>
-        
+
         <section class="gallery">
             <ul class="gallery__cards">
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Карачаевск</h2>
-                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска"
+                        class="gallery__card-img">
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Гора Эльбрус</h2>
                     <img src="./images/rock-elbrus.jpg" alt="Гора Эльбрус на закате" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Домбай</h2>
                     <img src="./images/dombai.jpg" alt="Горы Домбая" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Гора Эльбрус</h2>
                     <img src="./images/rock-elbrus.jpg" alt="Гора Эльбрус на закате" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Домбай</h2>
                     <img src="./images/dombai.jpg" alt="Горы Домбая" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
                 <li class="gallery__card">
                     <h2 class="gallery__card-title">Карачаево-Черкесия</h2>
-                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска" class="gallery__card-img">
-                    <button class="gallery__card-btn"></button>
+                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска"
+                        class="gallery__card-img">
+                    <button type="button" class="gallery__card-btn"></button>
                 </li>
             </ul>
         </section>
     </main>
     <footer class="footer">
-        <h2 class="footer__title">&copy; 2020 Mesto Russia</h2>
+        <p class="footer__title">&copy; 2020 Mesto Russia</p>
     </footer>
     <form class="edit-form">
         <h2 class="edit-form__title">Редактировать профиль</h2>
-        <input class="edit-form__input-text edit-form__input-text_value_name" name="name" type="text" value="Жак-Ив Кусто">
-        <input class="edit-form__input-text edit-form__input-text_value_job" name="job" type="text" value="Исследователь океана">
+        <input class="edit-form__input-text edit-form__input-text_value_name" name="name" type="text"
+            value="Жак-Ив Кусто">
+        <input class="edit-form__input-text edit-form__input-text_value_job" name="job" type="text"
+            value="Исследователь океана">
         <button type="submit" class="edit-form__btn">Сохранить</button>
         <button type="button" class="edit-form__btn-closed">
-            <img class="edit-form__btn-closed-image" src="./images/Close_Icon.png" alt="Кнопка закрытия формы">
+            <img class="edit-form__btn-closed-image" src="./images/Close Icon.svg" alt="Кнопка закрытия формы">
         </button>
     </form>
     <script src="./scripts/script.js"></script>
 </body>
+
 </html>
