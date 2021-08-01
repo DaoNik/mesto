@@ -21,9 +21,7 @@
             <div class="profile__wrapper">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
                 <p class="profile__subtitle">Исследователь океана</p>
-                <button type="button" class="profile__button-edit" aria-label="Кнопка для редактирования имени пользователя и рода деятельности">
-                    <img src="./images/pen.svg" alt="Значок редактирования - ручка">
-                </button>
+                <button type="button" class="profile__button-edit" aria-label="Кнопка для открытия окна редактирования имени пользователя и рода деятельности"></button>
             </div>
 
 
@@ -73,17 +71,21 @@
     <footer class="footer">
         <p class="footer__title">&copy; 2020 Mesto Russia</p>
     </footer>
-    <form class="edit-form">
-        <h2 class="edit-form__title">Редактировать профиль</h2>
-        <input class="edit-form__input-text edit-form__input-text_value_name" name="name" type="text"
-            value="Жак-Ив Кусто">
-        <input class="edit-form__input-text edit-form__input-text_value_job" name="job" type="text"
-            value="Исследователь океана">
-        <button type="submit" class="edit-form__btn">Сохранить</button>
-        <button type="button" class="edit-form__btn-closed">
-            <img class="edit-form__btn-closed-image" src="./images/Close Icon.svg" alt="Кнопка закрытия формы">
-        </button>
-    </form>
+    <div class="popup">
+        <div class="popup__container">
+            <form class="edit-form" name="edit-form">
+                <h2 class="edit-form__title">Редактировать профиль</h2>
+                <input class="edit-form__input-text edit-form__input-text_value_name" name="name" type="text"
+                    value="Жак-Ив Кусто">
+                <input class="edit-form__input-text edit-form__input-text_value_job" name="job" type="text"
+                    value="Исследователь океана">
+                <button type="submit" class="edit-form__btn">Сохранить</button>
+            </form>
+            <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия окна редактирования профиля">
+                    <img class="popup__btn-closed-image" src="./images/Close Icon.svg" alt="Кнопка закрытия формы">
+            </button>            
+        </div>
+    </div>
     <script src="./scripts/script.js"></script>
 </body>
 

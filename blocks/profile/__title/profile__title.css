@@ -5,10 +5,15 @@
     margin: 0;
     align-self: end;
     justify-self: start;
+    text-overflow: ellipsis;
+    max-width: 292.83px;
+    overflow: hidden;
+    white-space: nowrap; 
 }
 
 @media screen and (max-width: 900px) {
     .profile__title {
+        max-width: 188.25px;
         font-size: 27px;
         line-height: 33px;
     }
