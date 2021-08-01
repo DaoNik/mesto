@@ -1,5 +1,6 @@
 let openedButton = document.querySelector('.profile__button-edit');
 let popup = document.querySelector('.popup');
+let popupForm = popup.querySelector('.popup__form');
 let closedButton = popup.querySelector('.popup__btn-closed');
 let nameImport = popup.querySelector('.popup__input-text_value_name');
 let profileTitle = document.querySelector('.profile__title');
@@ -15,8 +16,7 @@ function closePopup () {
     popup.classList.remove('popup_opened');
 }
 
-openedButton.addEventListener('click', openPopup);
-closedButton.addEventListener('click', closePopup);
+
 
 function formSubmitHandler (evt) {
     evt.preventDefault();
@@ -25,4 +25,6 @@ function formSubmitHandler (evt) {
     closePopup();
 }
 
-popup.addEventListener('submit', formSubmitHandler);
+openedButton.addEventListener('click', openPopup);
+closedButton.addEventListener('click', closePopup);
+popupForm.addEventListener('submit', formSubmitHandler);
