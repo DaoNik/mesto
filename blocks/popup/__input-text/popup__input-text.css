@@ -1,4 +1,4 @@
-.edit-form__input-text {
+.popup__input-text {
     max-width: 358px;
     margin-bottom: 30px;
     width: 100%;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .edit-form__input-text {
+    .popup__input-text {
         max-width: 238px;
     }
 }

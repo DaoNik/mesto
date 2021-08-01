@@ -1,9 +1,9 @@
 let openedButton = document.querySelector('.profile__button-edit');
 let popup = document.querySelector('.popup');
 let closedButton = popup.querySelector('.popup__btn-closed');
-let nameImport = popup.querySelector('.edit-form__input-text_value_name');
+let nameImport = popup.querySelector('.popup__input-text_value_name');
 let profileTitle = document.querySelector('.profile__title');
-let jobImport = popup.querySelector('.edit-form__input-text_value_job');
+let jobImport = popup.querySelector('.popup__input-text_value_job');
 let profileSubtitle = document.querySelector('.profile__subtitle');
 function openPopup () {
     popup.classList.add('popup_opened');

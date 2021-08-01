@@ -1,4 +1,4 @@
-.edit-form__btn {
+.popup__btn {
     max-width: 358px;
     width: 100%;
     font-weight: normal;
@@ -14,13 +14,13 @@
     margin-bottom: 37px;
 }
 
-.edit-form__btn:hover {
+.popup__btn:hover {
     opacity: 0.8;
     cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-    .edit-form__btn {
+    .popup__btn {
         font-size: 14px;
         line-height: 17px;
         max-width: 238px;
