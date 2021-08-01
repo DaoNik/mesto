@@ -10,7 +10,8 @@
 @media screen and (max-width: 900px) {
     .profile__wrapper {
         margin: 0;
-        row-gap: 14px;
+        row-gap: 9px;
         column-gap: 10px;
+        justify-items: center;
     }
 }
