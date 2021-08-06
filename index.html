@@ -24,52 +24,19 @@
                 <button type="button" class="profile__button-edit" aria-label="Кнопка для открытия окна редактирования имени пользователя и рода деятельности"></button>
             </div>
 
-
             <img class="profile__avatar" src="./images/Avatar.png" alt="Аватар профиля">
-            <button type="button" class="profile__button-add"></button>
+            <button type="button" class="profile__button-add" aria-label="Кнопка для открытия окна добавления мест"></button>
         </section>
 
         <section class="gallery">
             <ul class="gallery__cards">
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Карачаевск</h2>
-                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска"
-                        class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Гора Эльбрус</h2>
-                    <img src="./images/rock-elbrus.jpg" alt="Гора Эльбрус на закате" class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Домбай</h2>
-                    <img src="./images/dombai.jpg" alt="Горы Домбая" class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Гора Эльбрус</h2>
-                    <img src="./images/rock-elbrus.jpg" alt="Гора Эльбрус на закате" class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Домбай</h2>
-                    <img src="./images/dombai.jpg" alt="Горы Домбая" class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
-                <li class="gallery__card">
-                    <h2 class="gallery__card-title">Карачаево-Черкесия</h2>
-                    <img src="./images/karachaevsk.jpg" alt="Старое здание в горах около Карачаевска"
-                        class="gallery__card-img">
-                    <button type="button" class="gallery__card-btn"></button>
-                </li>
             </ul>
         </section>
     </main>
     <footer class="footer">
         <p class="footer__title">&copy; 2020 Mesto Russia</p>
     </footer>
-    <div class="popup">
+    <div class="popup popup_edit">
         <div class="popup__container">
             <form class="popup__form" name="popup__form">
                 <h2 class="popup__title">Редактировать профиль</h2>
@@ -79,9 +46,30 @@
                     value="Исследователь океана">
                 <button type="submit" class="popup__btn">Сохранить</button>
             </form>
-            <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия окна редактирования профиля"></button>            
+            <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия всплывающего окна"></button>            
         </div>
     </div>
+    <div class="popup popup_add">
+        <div class="popup__container">
+            <form class="popup__form" name="popup__form">
+                <h2 class="popup__title">Новое место</h2>
+                <input class="popup__input-text popup__input-text_value_name" name="name" type="text"
+                    value="Название">
+                <input class="popup__input-text popup__input-text_value_job" name="job" type="text"
+                    value="Ссылка на картинку">
+                <button type="submit" class="popup__btn">Сохранить</button>
+            </form>
+            <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия всплывающего окна"></button>  
+        </div>
+    </div>
+    <template id="template-card">
+        <li class="gallery__card">
+            <h2 class="gallery__card-title"></h2>
+            <img src="" alt=""
+                class="gallery__card-img">
+            <button type="button" class="gallery__card-btn"></button>
+        </li>
+    </template>
     <script src="./scripts/script.js"></script>
 </body>
 
