@@ -96,7 +96,9 @@ function clickGallery (evt) {
       evt.target.classList.toggle('gallery__card-btn_active');
     }
 
-    
+    if (evt.target.classList.value === 'gallery__card-btn-trash') {
+      evt.target.parentElement.remove();
+    }   
 }
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
