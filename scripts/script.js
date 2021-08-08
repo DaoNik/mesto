@@ -1,15 +1,18 @@
-let openedButtonEdit = document.querySelector('.profile__button-edit');
-let openedButtonAdd = document.querySelector('.profile__button-add');
+const openedButtonEdit = document.querySelector('.profile__button-edit');
+const openedButtonAdd = document.querySelector('.profile__button-add');
 const popup = document.querySelectorAll('popup');
-let popupEdit = document.querySelector('.popup_edit');
-let popupAdd = document.querySelector('.popup_add');
-let popupEditForm = popupEdit.querySelector('.popup__form');
-let popupAddForm = popupAdd.querySelector('.popup__form')
-let closedButton = document.querySelectorAll('.popup__btn-closed');
-let nameImport = popupEdit.querySelector('.popup__input-text_value_name');
-let profileTitle = document.querySelector('.profile__title');
-let jobImport = popupEdit.querySelector('.popup__input-text_value_job');
-let profileSubtitle = document.querySelector('.profile__subtitle');
+const popupEdit = document.querySelector('.popup_edit');
+const popupAdd = document.querySelector('.popup_add');
+const popupView = document.querySelector('.popup_view');
+const popupViewImg = popupView.querySelector('.popup__view-image');
+const popupViewTitle = popupView.querySelector('.popup__view-title');
+const popupEditForm = popupEdit.querySelector('.popup__form');
+const popupAddForm = popupAdd.querySelector('.popup__form')
+const closedButton = document.querySelectorAll('.popup__btn-closed');
+const nameImport = popupEdit.querySelector('.popup__input-text_value_name');
+const profileTitle = document.querySelector('.profile__title');
+const jobImport = popupEdit.querySelector('.popup__input-text_value_job');
+const profileSubtitle = document.querySelector('.profile__subtitle');
 const placeImport = popupAdd.querySelector('.popup__input-text_value_place');
 const placeLinkImport = popupAdd.querySelector('.popup__input-text_value_place-link');
 const galleryCards = document.querySelector('.gallery__cards');
@@ -47,7 +50,7 @@ function newCard(nameCard, imgCard) {
     const galleryCardImg = galleryCard.querySelector('.gallery__card-img');    
     galleryCardTitle.textContent = nameCard;
     galleryCardImg.src = imgCard;
-    galleryCardTitle.alt = nameCard;
+    galleryCardImg.alt = nameCard;
     return galleryCard;
 }
 
@@ -99,6 +102,14 @@ function clickGallery (evt) {
     if (evt.target.classList.value === 'gallery__card-btn-trash') {
       evt.target.parentElement.remove();
     }   
+
+    if (evt.target.classList[0] === 'gallery__card-img') {
+      const galleryCard = evt.target.parentElement;
+      popupViewImg.src = evt.target.src;
+      popupViewImg.alt = galleryCard.firstElementChild.textContent;
+      popupViewTitle.textContent = galleryCard.firstElementChild.textContent;
+      openPopup(popupView);
+    }
 }
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
@@ -108,4 +119,4 @@ for (let i = 0; i < closedButton.length; i++) {
 }
 popupEditForm.addEventListener('submit', formEditSubmitHandler);
 popupAddForm.addEventListener('submit', formAddSubmitHandler);
-galleryCards.addEventListener('click', clickGallery)
+galleryCards.addEventListener('click', clickGallery);
