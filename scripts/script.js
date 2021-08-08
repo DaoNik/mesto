@@ -71,6 +71,8 @@ function openPopupEdit () {
 
 function openPopupAdd () {
     openPopup(popupAdd);
+    placeImport.value = '';
+    placeLinkImport.value = ''; 
 }
 
 function closePopup (evt, popup) {
