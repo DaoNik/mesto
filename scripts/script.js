@@ -1,6 +1,5 @@
 const openedButtonEdit = document.querySelector('.profile__button-edit');
 const openedButtonAdd = document.querySelector('.profile__button-add');
-const popup = document.querySelectorAll('popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupView = document.querySelector('.popup_view');
@@ -8,7 +7,7 @@ const popupViewImg = popupView.querySelector('.popup__view-image');
 const popupViewTitle = popupView.querySelector('.popup__view-title');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const popupAddForm = popupAdd.querySelector('.popup__form')
-const closedButton = document.querySelectorAll('.popup__btn-closed');
+const closedButtons = document.querySelectorAll('.popup__btn-closed');
 const nameImport = popupEdit.querySelector('.popup__input-text_value_name');
 const profileTitle = document.querySelector('.profile__title');
 const jobImport = popupEdit.querySelector('.popup__input-text_value_job');
@@ -51,13 +50,14 @@ function newCard(nameCard, imgCard) {
     galleryCardTitle.textContent = nameCard;
     galleryCardImg.src = imgCard;
     galleryCardImg.alt = nameCard;
+    galleryCards.addEventListener('click', clickGallery);
     return galleryCard;
 }
 
-for (let i = 0; i < initialCards.length; i++) {
-    const galleryCard = newCard(initialCards[i].name, initialCards[i].link);
-    galleryCards.append(galleryCard);
-}
+initialCards.forEach((initialCard) => {
+  const galleryCard = newCard(initialCard.name, initialCard.link);
+  galleryCards.append(galleryCard);
+})
 
 function openPopup (popup) {
     popup.classList.add('popup_opened');    
@@ -69,56 +69,49 @@ function openPopupEdit () {
     jobImport.value = profileSubtitle.textContent;
 }
 
-function openPopupAdd () {
-    openPopup(popupAdd);
-    placeImport.value = '';
-    placeLinkImport.value = ''; 
+function closePopup (popup) {
+  popup.classList.remove('popup_opened');
 }
 
-function closePopup (evt, popup) {
-  if (popup === undefined) {
-    popup = evt.target.parentElement.parentElement;
-  }
-    popup.classList.remove('popup_opened');
-}
-
-function formEditSubmitHandler (evt) {
+function handleProfileFormSubmit (evt) {
     evt.preventDefault();
     profileTitle.textContent = nameImport.value;
     profileSubtitle.textContent = jobImport.value;
-    closePopup(evt, evt.target.parentElement.parentElement);
+    closePopup(evt.target.closest('.popup'));
 }
 
-function formAddSubmitHandler (evt) {
+function handleAddCardFormSubmit (evt) {
     evt.preventDefault();
     const galleryCard = newCard(placeImport.value, placeLinkImport.value);
     galleryCards.prepend(galleryCard);
-    closePopup(evt, evt.target.parentElement.parentElement);
+    popupAddForm.reset();
+    closePopup(evt.target.closest('.popup'));
 }
 
 function clickGallery (evt) {
+    const galleryCard = evt.target.closest('.gallery__card');
     if (evt.target.classList[0] === 'gallery__card-btn') {
       evt.target.classList.toggle('gallery__card-btn_active');
     }
 
     if (evt.target.classList.value === 'gallery__card-btn-trash') {
-      evt.target.parentElement.remove();
+      galleryCard.remove();
     }   
 
-    if (evt.target.classList[0] === 'gallery__card-img') {
-      const galleryCard = evt.target.parentElement;
+    if (evt.target.classList[0] === 'gallery__card-img') {      
+      const galleryCardTitleText = galleryCard.querySelector('.gallery__card-title').textContent;
       popupViewImg.src = evt.target.src;
-      popupViewImg.alt = galleryCard.firstElementChild.textContent;
-      popupViewTitle.textContent = galleryCard.firstElementChild.textContent;
+      popupViewImg.alt = galleryCardTitleText;
+      popupViewTitle.textContent = galleryCardTitleText;
       openPopup(popupView);
     }
 }
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
-openedButtonAdd.addEventListener('click', openPopupAdd);
-for (let i = 0; i < closedButton.length; i++) {
-  closedButton[i].addEventListener('click', closePopup);
-}
-popupEditForm.addEventListener('submit', formEditSubmitHandler);
-popupAddForm.addEventListener('submit', formAddSubmitHandler);
-galleryCards.addEventListener('click', clickGallery);
+openedButtonAdd.addEventListener('click', () => openPopup(popupAdd));
+closedButtons.forEach(closedButton => {
+  const popup = closedButton.closest('.popup');
+  closedButton.addEventListener('click', () => closePopup(popup));
+})
+popupEditForm.addEventListener('submit', handleProfileFormSubmit);
+popupAddForm.addEventListener('submit', handleAddCardFormSubmit);
