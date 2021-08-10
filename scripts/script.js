@@ -77,7 +77,7 @@ function handleProfileFormSubmit (evt) {
     evt.preventDefault();
     profileTitle.textContent = nameImport.value;
     profileSubtitle.textContent = jobImport.value;
-    closePopup(evt.target.closest('.popup'));
+    closePopup(popupEdit);
 }
 
 function handleAddCardFormSubmit (evt) {
@@ -85,7 +85,7 @@ function handleAddCardFormSubmit (evt) {
     const galleryCard = newCard(placeImport.value, placeLinkImport.value);
     galleryCards.prepend(galleryCard);
     popupAddForm.reset();
-    closePopup(evt.target.closest('.popup'));
+    closePopup(popupAdd);
 }
 
 function clickGallery (evt) {
