@@ -110,7 +110,9 @@ function clickGallery (evt) {
 }
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
-openedButtonAdd.addEventListener('click', () => openPopup(popupAdd));
+openedButtonAdd.addEventListener('click', () => {
+  openPopup(popupAdd);
+});
 closedButtons.forEach(closedButton => {
   const popup = closedButton.closest('.popup');
   closedButton.addEventListener('click', () => closePopup(popup));
@@ -125,8 +127,8 @@ popups.forEach(popup => {
     }
   });
   popup.addEventListener('keydown', (evt) => {
-    console.log(evt.key);
     if (evt.key === 'Escape') {
+      evt.preventDefault();
       closePopup(evt.target.closest('.popup'));
     }
   })
