@@ -112,6 +112,7 @@ function clickGallery (evt) {
 openedButtonEdit.addEventListener('click', openPopupEdit);
 openedButtonAdd.addEventListener('click', () => {
   openPopup(popupAdd);
+  checkValidForm(popupAddForm);
 });
 closedButtons.forEach(closedButton => {
   const popup = closedButton.closest('.popup');
