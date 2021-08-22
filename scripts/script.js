@@ -1,5 +1,6 @@
 const openedButtonEdit = document.querySelector('.profile__button-edit');
 const openedButtonAdd = document.querySelector('.profile__button-add');
+const popups = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupView = document.querySelector('.popup_view');
@@ -116,3 +117,11 @@ closedButtons.forEach(closedButton => {
 })
 popupEditForm.addEventListener('submit', handleProfileFormSubmit);
 popupAddForm.addEventListener('submit', handleAddCardFormSubmit);
+
+popups.forEach(popup => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target.classList.contains('popup')) {
+      closePopup(popup);
+    }
+  });
+})
