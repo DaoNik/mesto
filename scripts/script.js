@@ -71,6 +71,7 @@ function openPopupEdit () {
 
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  popupAddForm.reset();
 }
 
 function handleProfileFormSubmit (evt) {

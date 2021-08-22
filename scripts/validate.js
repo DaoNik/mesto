@@ -17,12 +17,13 @@ const labelName = document.querySelector('.popup__label_value_name');
 const labelJob = document.querySelector('.popup__label_value_job');
 const popupButton = popupEditForm.querySelector('.popup__btn');
 
+
 nameImport.addEventListener('input', () => {
     if (nameImport.validity.valid) {
         labelName.textContent = '';
     }
     nameImport.checkValidity();
-    checkValidForm();
+    checkValidForm(popupEditForm);
 });
 
 nameImport.addEventListener('invalid', () => {
@@ -35,17 +36,18 @@ jobImport.addEventListener('input', () => {
     }
     jobImport.checkValidity();
     console.log(jobImport.checkValidity());
-    checkValidForm();
+    checkValidForm(popupEditForm);
 });
 
 jobImport.addEventListener('invalid', () => {
     labelJob.textContent = jobImport.validationMessage;
 })
 
-function checkValidForm ()  {
-    if (jobImport.validity.valid && nameImport.validity.valid) {
-        popupButton.removeAttribute('disabled');
+function checkValidForm (form)  {
+    const popupButtonSave = form.querySelector('.popup__btn');
+    if (form.checkValidity()) {
+        popupButtonSave.removeAttribute('disabled');
     } else {
-        popupButton.setAttribute('disabled', true);
+        popupButtonSave.setAttribute('disabled', true);
     }
 }
