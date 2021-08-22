@@ -55,10 +55,12 @@
         <div class="popup__container">
             <form class="popup__form" name="popup__form-add">
                 <h2 class="popup__title popup__title_add">Новое место</h2>
-                <input class="popup__input-text popup__input-text_value_place" name="place" type="text"
+                <input class="popup__input-text popup__input-text_value_place" id="place" name="place" type="text"
                     placeholder="Название" minlength="2" max-length="30" required>
-                <input class="popup__input-text popup__input-text_value_place-link" name="place-link" type="url"
+                    <label class="popup__label popup__label_value_place" for="place"></label>
+                <input class="popup__input-text popup__input-text_value_place-link" id="place-link" name="place-link" type="url"
                     placeholder="Ссылка на картинку" required>
+                    <label class="popup__label popup__label_value_place-link" for="place-link"></label>
                 <button type="submit" class="popup__btn">Создать</button>
             </form>
             <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия всплывающего окна"></button>  

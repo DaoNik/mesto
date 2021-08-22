@@ -15,9 +15,11 @@ const placeLinkImport = popupAdd.querySelector('.popup__input-text_value_place-l
 const galleryCards = document.querySelector('.gallery__cards'); */
 const labelName = document.querySelector('.popup__label_value_name');
 const labelJob = document.querySelector('.popup__label_value_job');
-const popupButton = popupEditForm.querySelector('.popup__btn');
-
-
+const labelPlace = document.querySelector('.popup__label_value_place');
+labelPlace.textContent = placeImport.validationMessage;
+const labelPlaceLink = document.querySelector('.popup__label_value_place-link');
+labelPlaceLink.textContent = placeLinkImport.validationMessage;
+console.log(jobImport.id, labelJob.attributes.for.value);
 nameImport.addEventListener('input', () => {
     if (nameImport.validity.valid) {
         labelName.textContent = '';
@@ -41,6 +43,30 @@ jobImport.addEventListener('input', () => {
 
 jobImport.addEventListener('invalid', () => {
     labelJob.textContent = jobImport.validationMessage;
+})
+
+placeImport.addEventListener('input', () => {
+    if (placeImport.validity.valid) {
+        labelPlace.textContent = '';
+    }
+    placeImport.checkValidity();
+    checkValidForm(popupAddForm);
+});
+
+placeImport.addEventListener('invalid', () => {
+    labelPlace.textContent = placeImport.validationMessage;
+})
+
+placeLinkImport.addEventListener('input', () => {
+    if (placeLinkImport.validity.valid) {
+        labelPlaceLink.textContent = '';
+    }
+    placeLinkImport.checkValidity();
+    checkValidForm(popupAddForm);
+});
+
+placeLinkImport.addEventListener('invalid', () => {
+    labelPlaceLink.textContent = placeLinkImport.validationMessage;
 })
 
 function checkValidForm (form)  {
