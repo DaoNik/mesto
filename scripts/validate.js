@@ -21,53 +21,40 @@ const labelPlaceLink = document.querySelector('.popup__label_value_place-link');
 labelPlaceLink.textContent = placeLinkImport.validationMessage;
 console.log(jobImport.id, labelJob.attributes.for.value);
 nameImport.addEventListener('input', () => {
-    if (nameImport.validity.valid) {
+    if (nameImport.checkValidity()) {
         labelName.textContent = '';
+    } else {
+        labelName.textContent = nameImport.validationMessage;
     }
-    nameImport.checkValidity();
     checkValidForm(popupEditForm);
 });
-
-nameImport.addEventListener('invalid', () => {
-    labelName.textContent = nameImport.validationMessage;
-})
 
 jobImport.addEventListener('input', () => {
-    if (jobImport.validity.valid) {
+    if (jobImport.checkValidity()) {
         labelJob.textContent = '';
+    } else {
+        labelJob.textContent = jobImport.validationMessage;
     }
-    jobImport.checkValidity();
-    console.log(jobImport.checkValidity());
     checkValidForm(popupEditForm);
 });
 
-jobImport.addEventListener('invalid', () => {
-    labelJob.textContent = jobImport.validationMessage;
-})
-
 placeImport.addEventListener('input', () => {
-    if (placeImport.validity.valid) {
+    if (placeImport.checkValidity()) {
         labelPlace.textContent = '';
+    } else {
+        labelPlace.textContent = placeImport.validationMessage;
     }
-    placeImport.checkValidity();
     checkValidForm(popupAddForm);
 });
-
-placeImport.addEventListener('invalid', () => {
-    labelPlace.textContent = placeImport.validationMessage;
-})
 
 placeLinkImport.addEventListener('input', () => {
-    if (placeLinkImport.validity.valid) {
+    if (placeLinkImport.checkValidity()) {
         labelPlaceLink.textContent = '';
+    } else {
+        labelPlaceLink.textContent = placeLinkImport.validationMessage;
     }
-    placeLinkImport.checkValidity();
     checkValidForm(popupAddForm);
 });
-
-placeLinkImport.addEventListener('invalid', () => {
-    labelPlaceLink.textContent = placeLinkImport.validationMessage;
-})
 
 function checkValidForm (form)  {
     const popupButtonSave = form.querySelector('.popup__btn');
