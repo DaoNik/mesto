@@ -124,4 +124,10 @@ popups.forEach(popup => {
       closePopup(popup);
     }
   });
+  popup.addEventListener('keydown', (evt) => {
+    console.log(evt.key);
+    if (evt.key === 'Escape') {
+      closePopup(evt.target.closest('.popup'));
+    }
+  })
 })
