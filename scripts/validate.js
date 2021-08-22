@@ -16,11 +16,11 @@ function displayValidityMessage (form) {
 
 popupForms.forEach(form => {
     form.addEventListener('input', () => {
-        checkValidForm(form);
+        enableValidation(form);
     })
 })
 
-function checkValidForm (form)  {
+function enableValidation (form)  {
     const popupButtonSave = form.querySelector('.popup__btn');
     if (form.checkValidity()) {
         popupButtonSave.removeAttribute('disabled');
