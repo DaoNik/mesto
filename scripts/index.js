@@ -60,8 +60,16 @@ initialCards.forEach((initialCard) => {
   galleryCards.append(galleryCard);
 })
 
+closePopupPressEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closePopup(evt.target.closest('.popup'));
+  }
+}
+
 function openPopup (popup) {
-    popup.classList.add('popup_opened');    
+    popup.classList.add('popup_opened');
+    popup.addEventListener('keydown', closePopupPressEsc); 
 }
 
 function openPopupEdit () {
@@ -72,6 +80,7 @@ function openPopupEdit () {
 
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('keydown', closePopupPressEsc);
   popupAddForm.reset();
 }
 
@@ -127,10 +136,4 @@ popups.forEach(popup => {
       closePopup(popup);
     }
   });
-  popup.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      closePopup(evt.target.closest('.popup'));
-    }
-  })
 })
