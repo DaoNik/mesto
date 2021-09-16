@@ -47,11 +47,25 @@ const initialCards = [
 function newCard(nameCard, imgCard) {
     const galleryCard = templateCard.querySelector('.gallery__card').cloneNode(true);
     const galleryCardTitle = galleryCard.querySelector('.gallery__card-title');
-    const galleryCardImg = galleryCard.querySelector('.gallery__card-img');    
+    const galleryCardImg = galleryCard.querySelector('.gallery__card-img');   
+    const galleryCardTrash = galleryCard.querySelector('.gallery__card-btn-trash'); 
+    const galleryCardLike = galleryCard.querySelector('.gallery__card-btn');
     galleryCardTitle.textContent = nameCard;
     galleryCardImg.src = imgCard;
     galleryCardImg.alt = nameCard;
-    galleryCards.addEventListener('click', clickGallery);
+    galleryCardImg.addEventListener('click', () => {
+      const galleryCardTitleText = galleryCard.querySelector('.gallery__card-title').textContent;
+      popupViewImg.src = imgCard;
+      popupViewImg.alt = nameCard;
+      popupViewTitle.textContent = nameCard;
+      openPopup(popupView);
+    })
+    galleryCardTrash.addEventListener('click', () => {
+      galleryCard.remove();
+    });
+    galleryCardLike.addEventListener('click', () => {
+      galleryCardLike.classList.toggle('gallery__card-btn_active');
+    })
     return galleryCard;
 }
 
@@ -84,7 +98,6 @@ function openPopupEdit() {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   popup.removeEventListener('keydown', closePopupPressEsc);
-  popupAddForm.reset();
 }
 
 function handleProfileFormSubmit(evt) {
@@ -101,26 +114,6 @@ function handleAddCardFormSubmit(evt) {
     popupAddForm.reset();
     closePopup(popupAdd);
 }
-
-function clickGallery(evt) {
-    const galleryCard = evt.target.closest('.gallery__card');
-    if (evt.target.classList[0] === 'gallery__card-btn') {
-      evt.target.classList.toggle('gallery__card-btn_active');
-    }
-
-    if (evt.target.classList.value === 'gallery__card-btn-trash') {
-      galleryCard.remove();
-    }   
-
-    if (evt.target.classList[0] === 'gallery__card-img') {      
-      const galleryCardTitleText = galleryCard.querySelector('.gallery__card-title').textContent;
-      popupViewImg.src = evt.target.src;
-      popupViewImg.alt = galleryCardTitleText;
-      popupViewTitle.textContent = galleryCardTitleText;
-      openPopup(popupView);
-    }
-}
-
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
 openedButtonAdd.addEventListener('click', () => {
