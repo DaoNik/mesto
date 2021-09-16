@@ -74,6 +74,8 @@ initialCards.forEach((initialCard) => {
   galleryCards.append(galleryCard);
 })
 
+
+
 closePopupPressEsc = (evt) => {
   if (evt.key === 'Escape') {
     popups.forEach(popup => {
@@ -83,6 +85,8 @@ closePopupPressEsc = (evt) => {
     })
   }
 }
+
+document.addEventListener('keydown', closePopupPressEsc);
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
@@ -97,7 +101,6 @@ function openPopupEdit() {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('keydown', closePopupPressEsc);
 }
 
 function handleProfileFormSubmit(evt) {
