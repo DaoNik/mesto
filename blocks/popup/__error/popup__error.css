@@ -1,4 +1,4 @@
-.popup__label {
+.popup__error {
     max-width: 358px;
     width: 100%;
     min-height: 12px;
@@ -9,7 +9,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .popup__label {
+    .popup__error {
         max-width: 238px;
         margin-bottom: 10px;
     }
