@@ -54,7 +54,6 @@ function newCard(nameCard, imgCard) {
     galleryCardImg.src = imgCard;
     galleryCardImg.alt = nameCard;
     galleryCardImg.addEventListener('click', () => {
-      const galleryCardTitleText = galleryCard.querySelector('.gallery__card-title').textContent;
       popupViewImg.src = imgCard;
       popupViewImg.alt = nameCard;
       popupViewTitle.textContent = nameCard;
@@ -76,26 +75,27 @@ initialCards.forEach((initialCard) => {
 
 
 
-closePopupPressEsc = (evt) => {
+const closePopupPressEsc = (evt) => {
   if (evt.key === 'Escape') {
     popups.forEach(popup => {
       if (popup.classList.contains('popup_opened')) {
         closePopup(popup);
+        document.removeEventListener('keydown', closePopupPressEsc);
       }
     })
   }
 }
 
-document.addEventListener('keydown', closePopupPressEsc);
-
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    enableValidation(configValidation);
+    document.addEventListener('keydown', closePopupPressEsc);
 }
 
 function openPopupEdit() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
+    const submitButton = popupEditForm.querySelector('.popup__btn');
+    enableSubmitButton(submitButton, configValidation.inactiveButtonClass);
     openPopup(popupEdit);
 }
 
@@ -115,6 +115,8 @@ function handleAddCardFormSubmit(evt) {
     const galleryCard = newCard(placeInput.value, placeLinkInput.value);
     galleryCards.prepend(galleryCard);
     popupAddForm.reset();
+    const submitButton = popupAddForm.querySelector('.popup__btn');
+    disableSubmitButton(submitButton, configValidation.inactiveButtonClass);
     closePopup(popupAdd);
 }
 
@@ -130,7 +132,7 @@ closedButtons.forEach(closedButton => {
 
 popupEditForm.addEventListener('submit', handleProfileFormSubmit);
 popupAddForm.addEventListener('submit', handleAddCardFormSubmit);
-document.addEventListener('keydown', closePopupPressEsc); 
+
 popups.forEach(popup => {
   popup.addEventListener('click', (evt) => {
     if (evt.target.classList.contains('popup')) {
