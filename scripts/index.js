@@ -80,7 +80,6 @@ const closePopupPressEsc = (evt) => {
     popups.forEach(popup => {
       if (popup.classList.contains('popup_opened')) {
         closePopup(popup);
-        document.removeEventListener('keydown', closePopupPressEsc);
       }
     })
   }
@@ -101,6 +100,7 @@ function openPopupEdit() {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupPressEsc);
 }
 
 function handleProfileFormSubmit(evt) {
