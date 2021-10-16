@@ -42,6 +42,18 @@ const initialCards = [
 ];
 
 import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
+
+const configValidation = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__btn',
+    inactiveButtonClass: 'popup__btn_disabled',
+    inputErrorClass: 'popup__input_type_error',
+}
+
+const validator = new FormValidator(configValidation);
+validator.enableValidation();
 
 function newCard(nameCard, imgCard, templateSelector, popup) {
   const cardElement = new Card(nameCard, imgCard, templateSelector, popup);
@@ -70,6 +82,16 @@ const closePopupPressEsc = (evt) => {
 export function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupPressEsc);
+}
+
+function disableSubmitButton(buttonElement, inactiveButtonClass) {
+  buttonElement.classList.add(inactiveButtonClass);
+  buttonElement.setAttribute('disabled', true);
+}
+
+function enableSubmitButton(buttonElement, inactiveButtonClass)  {
+  buttonElement.classList.remove(inactiveButtonClass);
+  buttonElement.removeAttribute('disabled');
 }
 
 function openPopupEdit() {
