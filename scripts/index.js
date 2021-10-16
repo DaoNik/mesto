@@ -43,8 +43,8 @@ const initialCards = [
 
 import {Card} from './Card.js';
 
-function newCard(nameCard, imgCard, templateSelector, popupSelector) {
-  const cardElement = new Card(nameCard, imgCard, templateSelector, popupSelector);
+function newCard(nameCard, imgCard, templateSelector, popup) {
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popup);
   const galleryCard = cardElement.generateValue();
   
   return galleryCard;
