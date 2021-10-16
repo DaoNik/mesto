@@ -4,8 +4,6 @@ const popups = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupView = document.querySelector('.popup_view');
-const popupViewImg = popupView.querySelector('.popup__view-image');
-const popupViewTitle = popupView.querySelector('.popup__view-title');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const popupAddForm = popupAdd.querySelector('.popup__form')
 const closedButtons = document.querySelectorAll('.popup__btn-closed');
@@ -16,7 +14,6 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const placeInput = popupAdd.querySelector('.popup__input_value_place');
 const placeLinkInput = popupAdd.querySelector('.popup__input_value_place-link');
 const galleryCards = document.querySelector('.gallery__cards');
-const templateCard = document.getElementById('template-card').content;
 const initialCards = [
     {
       name: 'Архыз',
@@ -44,32 +41,17 @@ const initialCards = [
     }
 ];
 
-function newCard(nameCard, imgCard) {
-    const galleryCard = templateCard.querySelector('.gallery__card').cloneNode(true);
-    const galleryCardTitle = galleryCard.querySelector('.gallery__card-title');
-    const galleryCardImg = galleryCard.querySelector('.gallery__card-img');   
-    const galleryCardTrash = galleryCard.querySelector('.gallery__card-btn-trash'); 
-    const galleryCardLike = galleryCard.querySelector('.gallery__card-btn');
-    galleryCardTitle.textContent = nameCard;
-    galleryCardImg.src = imgCard;
-    galleryCardImg.alt = nameCard;
-    galleryCardImg.addEventListener('click', () => {
-      popupViewImg.src = imgCard;
-      popupViewImg.alt = nameCard;
-      popupViewTitle.textContent = nameCard;
-      openPopup(popupView);
-    })
-    galleryCardTrash.addEventListener('click', () => {
-      galleryCard.remove();
-    });
-    galleryCardLike.addEventListener('click', () => {
-      galleryCardLike.classList.toggle('gallery__card-btn_active');
-    })
-    return galleryCard;
+import {Card} from './Card.js';
+
+function newCard(nameCard, imgCard, templateSelector, popupSelector) {
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popupSelector);
+  const galleryCard = cardElement.generateValue();
+  
+  return galleryCard;
 }
 
 initialCards.forEach((initialCard) => {
-  const galleryCard = newCard(initialCard.name, initialCard.link);
+  const galleryCard = newCard(initialCard.name, initialCard.link, '#template-card', popupView);
   galleryCards.append(galleryCard);
 })
 
@@ -85,7 +67,7 @@ const closePopupPressEsc = (evt) => {
   }
 }
 
-function openPopup(popup) {
+export function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupPressEsc);
 }
@@ -112,7 +94,7 @@ function handleProfileFormSubmit(evt) {
 
 function handleAddCardFormSubmit(evt) {
     evt.preventDefault();
-    const galleryCard = newCard(placeInput.value, placeLinkInput.value);
+    const galleryCard = newCard(placeInput.value, placeLinkInput.value, '#template-card', popupView);
     galleryCards.prepend(galleryCard);
     popupAddForm.reset();
     const submitButton = popupAddForm.querySelector('.popup__btn');
