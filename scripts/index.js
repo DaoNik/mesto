@@ -56,7 +56,7 @@ const validator = new FormValidator(configValidation);
 validator.enableValidation();
 
 function newCard(nameCard, imgCard, templateSelector, popup) {
-  const cardElement = new Card(nameCard, imgCard, templateSelector, popup);
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, openPopup);
   const galleryCard = cardElement.generateValue();
   
   return galleryCard;
@@ -79,7 +79,7 @@ const closePopupPressEsc = (evt) => {
   }
 }
 
-export function openPopup(popup) {
+function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupPressEsc);
 }

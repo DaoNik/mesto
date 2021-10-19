@@ -1,11 +1,10 @@
-import {openPopup} from './index.js';
-
 export class Card {
-    constructor(nameCard, imgCard, templateSelector, popup) {
+    constructor(nameCard, imgCard, templateSelector, popup, openPopup) {
         this._templateSelector = templateSelector;
         this._nameCard = nameCard;
         this._imgCard = imgCard;
         this._popup = popup;
+        this._open = openPopup;
     }
 
     _getTemplate() {
@@ -25,7 +24,7 @@ export class Card {
             popupViewImg.src = this._imgCard;
             popupViewImg.alt = this._nameCard;
             popupViewTitle.textContent = this._nameCard;
-            openPopup(this._popup);
+            this._open(this._popup);
         })
         cardTrash.addEventListener('click', () => {
             cardElement.remove();
