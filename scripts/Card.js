@@ -28,6 +28,7 @@ export class Card {
         })
         cardTrash.addEventListener('click', () => {
             cardElement.remove();
+            cardElement.innerHTML = '';
         });
         cardLike.addEventListener('click', () => {
             cardLike.classList.toggle('gallery__card-btn_active');
@@ -35,16 +36,16 @@ export class Card {
     }
 
     generateValue() {
-        const cardElement = this._getTemplate();
-        const cardTitle = cardElement.querySelector('.gallery__card-title');
-        const cardImg = cardElement.querySelector('.gallery__card-img');   
-        const cardTrash = cardElement.querySelector('.gallery__card-btn-trash'); 
-        const cardLike = cardElement.querySelector('.gallery__card-btn');
+        this._element = this._getTemplate();
+        const cardTitle = this._element.querySelector('.gallery__card-title');
+        const cardImg = this._element.querySelector('.gallery__card-img');   
+        const cardTrash = this._element.querySelector('.gallery__card-btn-trash'); 
+        const cardLike = this._element.querySelector('.gallery__card-btn');
         cardTitle.textContent = this._nameCard;
         cardImg.src = this._imgCard;
         cardImg.alt = this._nameCard;
-        this._setEventListeners(cardImg, cardTrash, cardLike, cardElement);
-        return cardElement;
+        this._setEventListeners(cardImg, cardTrash, cardLike, this._element);
+        return this._element;
     }
 
 
