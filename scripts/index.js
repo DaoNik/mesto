@@ -45,18 +45,17 @@ import {Card} from './Card.js';
 import {FormValidator} from './FormValidator.js';
 
 const configValidation = {
-    formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__btn',
     inactiveButtonClass: 'popup__btn_disabled',
     inputErrorClass: 'popup__input_type_error',
 }
 
-const validator = new FormValidator(configValidation);
-validator.enableValidation();
-
 function newCard(nameCard, imgCard, templateSelector, popup) {
-  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, openPopup);
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, () => {
+    popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupPressEsc);
+  });
   const galleryCard = cardElement.generateValue();
   
   return galleryCard;
@@ -67,38 +66,24 @@ initialCards.forEach((initialCard) => {
   galleryCards.append(galleryCard);
 })
 
-
-
 const closePopupPressEsc = (evt) => {
   if (evt.key === 'Escape') {
-    popups.forEach(popup => {
-      if (popup.classList.contains('popup_opened')) {
-        closePopup(popup);
-      }
-    })
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   }
 }
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    const popupForm = popup.querySelector('.popup__form');
+    const formValidation = new FormValidator(configValidation, popupForm);
+    formValidation.enableValidation();
     document.addEventListener('keydown', closePopupPressEsc);
-}
-
-function disableSubmitButton(buttonElement, inactiveButtonClass) {
-  buttonElement.classList.add(inactiveButtonClass);
-  buttonElement.setAttribute('disabled', true);
-}
-
-function enableSubmitButton(buttonElement, inactiveButtonClass)  {
-  buttonElement.classList.remove(inactiveButtonClass);
-  buttonElement.removeAttribute('disabled');
 }
 
 function openPopupEdit() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;
-    const submitButton = popupEditForm.querySelector('.popup__btn');
-    enableSubmitButton(submitButton, configValidation.inactiveButtonClass);
     openPopup(popupEdit);
 }
 
@@ -119,8 +104,6 @@ function handleAddCardFormSubmit(evt) {
     const galleryCard = newCard(placeInput.value, placeLinkInput.value, '#template-card', popupView);
     galleryCards.prepend(galleryCard);
     popupAddForm.reset();
-    const submitButton = popupAddForm.querySelector('.popup__btn');
-    disableSubmitButton(submitButton, configValidation.inactiveButtonClass);
     closePopup(popupAdd);
 }
 
