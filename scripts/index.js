@@ -4,6 +4,7 @@ const popups = document.querySelectorAll('.popup');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupView = document.querySelector('.popup_view');
+const popupForms = document.querySelectorAll('.popup__form');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const popupAddForm = popupAdd.querySelector('.popup__form')
 const closedButtons = document.querySelectorAll('.popup__btn-closed');
@@ -51,11 +52,13 @@ const configValidation = {
     inputErrorClass: 'popup__input_type_error',
 }
 
+const popupEditFormValid = new FormValidator(configValidation, popupEditForm);
+popupEditFormValid.enableValidation();
+const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
+popupAddFormValid.enableValidation();
+
 function newCard(nameCard, imgCard, templateSelector, popup) {
-  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, () => {
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupPressEsc);
-  });
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, openPopup);
   const galleryCard = cardElement.generateValue();
   
   return galleryCard;
@@ -75,9 +78,6 @@ const closePopupPressEsc = (evt) => {
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    const popupForm = popup.querySelector('.popup__form');
-    const formValidation = new FormValidator(configValidation, popupForm);
-    formValidation.enableValidation();
     document.addEventListener('keydown', closePopupPressEsc);
 }
 
@@ -109,6 +109,7 @@ function handleAddCardFormSubmit(evt) {
 
 openedButtonEdit.addEventListener('click', openPopupEdit);
 openedButtonAdd.addEventListener('click', () => {
+  popupAddFormValid.disableSubmitButton();
   openPopup(popupAdd);
 });
 
