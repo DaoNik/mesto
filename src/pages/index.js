@@ -18,8 +18,9 @@ import {
   initialCards
 } from '../utils/constants.js'
 
-import {Card} from '../components/Card.js';
-import {FormValidator} from '../components/FormValidator.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
+import FormValidator from '../components/FormValidator.js';
 
 const configValidation = {
     inputSelector: '.popup__input',
@@ -40,10 +41,17 @@ function newCard(nameCard, imgCard, templateSelector, popup) {
   return galleryCard;
 }
 
-initialCards.forEach((initialCard) => {
-  const galleryCard = newCard(initialCard.name, initialCard.link, '#template-card', popupView);
-  galleryCards.append(galleryCard);
-})
+const cardList = new Section({items: initialCards, renderer: (cardItem) => {
+    const galleryCard = newCard(cardItem.name, cardItem.link, '#template-card', popupView);
+    cardList.addItem(galleryCard);
+}}, galleryCards);
+
+cardList.renderItems();
+
+// initialCards.forEach((initialCard) => {
+//   const galleryCard = newCard(initialCard.name, initialCard.link, '#template-card', popupView);
+//   galleryCards.append(galleryCard);
+// })
 
 const closePopupPressEsc = (evt) => {
   if (evt.key === 'Escape') {
