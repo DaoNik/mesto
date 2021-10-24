@@ -18,8 +18,8 @@ import {
   initialCards
 } from '../utils/constants.js'
 
-import {Card} from '../scripts/Card.js';
-import {FormValidator} from '../scripts/FormValidator.js';
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
 
 const configValidation = {
     inputSelector: '.popup__input',
