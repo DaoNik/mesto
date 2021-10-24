@@ -1,0 +1,25 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Интерактивный адаптивный сайт",
+  "main": "index.js",
+  "scripts": {
+    "build": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaoNik/mesto.git"
+  },
+  "author": "Nikita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaoNik/mesto/issues"
+  },
+  "homepage": "https://github.com/DaoNik/mesto#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
