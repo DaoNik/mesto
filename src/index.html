@@ -6,13 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto - наш ответ Instagram</title>
-    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body class="page">
     <header class="header">
         <a href="#" class="header__link">
-            <img src="./images/logo.svg" alt="Логотип Mesto-Russia" class="header__image">
+            <img src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto-Russia" class="header__image">
         </a>
     </header>
 
@@ -24,7 +23,7 @@
                 <button type="button" class="profile__button-edit" aria-label="Кнопка для открытия окна редактирования имени пользователя и рода деятельности"></button>
             </div>
 
-            <img class="profile__avatar" src="./images/Avatar.png" alt="Аватар профиля">
+            <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="Аватар профиля">
             <button type="button" class="profile__button-add" aria-label="Кнопка для открытия окна добавления мест"></button>
         </section>
 
