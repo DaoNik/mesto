@@ -1,17 +1,10 @@
 import {
   openedButtonEdit,
   openedButtonAdd,
-  popups,
   popupEditForm,
   popupAddForm,
-  closedButtons,
   nameInput,
-  profileTitle,
   jobInput,
-  profileSubtitle,
-  placeInput,
-  placeLinkInput,
-  galleryCards,
   configValidation,
   initialCards
 } from '../utils/constants.js'
@@ -21,11 +14,20 @@ import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
+const userInfo = new UserInfo({userSelector: '.profile__title', infoSelector: '.profile__subtitle'});
 const popupEdit = new PopupWithForm('.popup_edit', data => {
-
+    userInfo.setUserInfo(data);
 });
-
+popupEdit.setEventListeners();
+openedButtonEdit.addEventListener('click', () => {
+  const popupEditValues = userInfo.getUserInfo();
+  nameInput.value = popupEditValues.user;
+  jobInput.value = popupEditValues.info;
+  popupEditFormValid.enableValidation();
+  popupEdit.open();
+});
 
 const popupView = new PopupWithImage('.popup_view');
 popupView.setEventListeners();
@@ -36,7 +38,9 @@ const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
 popupAddFormValid.enableValidation();
 
 function newCard(nameCard, imgCard, templateSelector, popup) {
-  const cardElement = new Card(nameCard, imgCard, templateSelector, popup);
+  const cardElement = new Card(nameCard, imgCard, templateSelector, popup, ({ link, name }) => {
+    popup.open({link, name});
+  });
   const galleryCard = cardElement.generateValue();
   
   return galleryCard;
@@ -45,7 +49,7 @@ function newCard(nameCard, imgCard, templateSelector, popup) {
 const cardList = new Section({items: initialCards, renderer: (cardItem) => {
     const galleryCard = newCard(cardItem.name, cardItem.link, '#template-card', popupView);
     cardList.addItem(galleryCard);
-}}, galleryCards);
+}}, '.gallery__cards');
 
 cardList.renderItems();
 
@@ -58,65 +62,3 @@ openedButtonAdd.addEventListener('click', () => {
   popupAddFormValid.disableSubmitButton();
   popupAdd.open();
 });
-
-// initialCards.forEach((initialCard) => {
-//   const galleryCard = newCard(initialCard.name, initialCard.link, '#template-card', popupView);
-//   galleryCards.append(galleryCard);
-// })
-
-// const closePopupPressEsc = (evt) => {
-//   if (evt.key === 'Escape') {
-//     const openedPopup = document.querySelector('.popup_opened');
-//     closePopup(openedPopup);
-//   }
-// }
-
-// function openPopup(popup) {
-//     popup.classList.add('popup_opened');
-//     document.addEventListener('keydown', closePopupPressEsc);
-// }
-
-// function openPopupEdit() {
-//     nameInput.value = profileTitle.textContent;
-//     jobInput.value = profileSubtitle.textContent;
-//     openPopup(popupEdit);
-// }
-
-// function closePopup(popup) {
-//   popup.classList.remove('popup_opened');
-//   document.removeEventListener('keydown', closePopupPressEsc);
-// }
-
-// function handleProfileFormSubmit(evt) {
-//     evt.preventDefault();
-//     profileTitle.textContent = nameInput.value;
-//     profileSubtitle.textContent = jobInput.value;
-//     closePopup(popupEdit);
-// }
-
-// function handleAddCardFormSubmit(evt) {
-//     evt.preventDefault();
-//     const galleryCard = newCard(placeInput.value, placeLinkInput.value, '#template-card', popupView);
-//     galleryCards.prepend(galleryCard);
-//     popupAddForm.reset();
-//     closePopup(popupAdd);
-// }
-
-// openedButtonEdit.addEventListener('click', openPopupEdit);
-
-
-// closedButtons.forEach(closedButton => {
-//   const popup = closedButton.closest('.popup');
-//   closedButton.addEventListener('click', () => closePopup(popup));
-// })
-
-// popupEditForm.addEventListener('submit', handleProfileFormSubmit);
-// popupAddForm.addEventListener('submit', handleAddCardFormSubmit);
-
-// popups.forEach(popup => {
-//   popup.addEventListener('click', (evt) => {
-//     if (evt.target.classList.contains('popup')) {
-//       closePopup(popup);
-//     }
-//   });
-// })

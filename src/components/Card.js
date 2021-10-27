@@ -19,9 +19,8 @@ export default class Card {
 
     _setEventListeners(cardImg, cardTrash, cardLike, cardElement) {
         cardImg.addEventListener('click', () => {
-            const data = {link: this._imgCard, name: this._nameCard};
-            this._popup.open(data);
-        })
+            this._handleCardClick({link: this._imgCard, name: this._nameCard})
+        });
         cardTrash.addEventListener('click', () => {
             cardElement.remove();
             cardElement.innerHTML = '';
