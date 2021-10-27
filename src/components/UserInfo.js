@@ -5,7 +5,7 @@ class UserInfo {
     }
 
     getUserInfo() {
-
+        this.obj = {user: this._user, info: this._info};
     }
 
     setUserInfo() {
