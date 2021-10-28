@@ -1,9 +1,9 @@
 export default class Card {
-    constructor(nameCard, imgCard, templateSelector, popup, handleCardClick) {
-        this._templateSelector = templateSelector;
-        this._nameCard = nameCard;
-        this._imgCard = imgCard;
-        this._popup = popup;
+    constructor(data, handleCardClick) {
+        this._templateSelector = data.templateSelector;
+        this._nameCard = data.nameCard;
+        this._imgCard = data.imgCard;
+        this._popup = data.popup;
         this._handleCardClick = handleCardClick;
     }
 
@@ -24,6 +24,7 @@ export default class Card {
         cardTrash.addEventListener('click', () => {
             cardElement.remove();
             cardElement.innerHTML = '';
+            this._element = null;
         });
         cardLike.addEventListener('click', () => {
             cardLike.classList.toggle('gallery__card-btn_active');
