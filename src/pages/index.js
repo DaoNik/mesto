@@ -38,7 +38,7 @@ popupEditFormValid.enableValidation();
 const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
 popupAddFormValid.enableValidation();
 
-function newCard(nameCard, imgCard, templateSelector, popup) {
+function createNewCard(nameCard, imgCard, templateSelector, popup) {
   const cardElement = new Card(nameCard, imgCard, templateSelector, popup, ({ link, name }) => {
     popup.open({link, name});
   });
@@ -48,14 +48,14 @@ function newCard(nameCard, imgCard, templateSelector, popup) {
 }
 
 const cardList = new Section({items: initialCards, renderer: (cardItem) => {
-    const galleryCard = newCard(cardItem.name, cardItem.link, '#template-card', popupView);
+    const galleryCard = createNewCard(cardItem.name, cardItem.link, '#template-card', popupView);
     cardList.addItem(galleryCard);
 }}, '.gallery__cards');
 
 cardList.renderItems();
 
 const popupAdd = new PopupWithForm('.popup_add', (data) => {
-  cardList.addItem(newCard(data.name, data.link, '#template-card', popupView));
+  cardList.addItem(createNewCard(data.name, data.link, '#template-card', popupView));
 });
 
 popupAdd.setEventListeners();
