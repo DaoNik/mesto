@@ -9,6 +9,7 @@
 * Grid
 * Flex
 * JS
+* Webpack
 
 ### Ссылка на сайт
 https://daonik.github.io/mesto/
