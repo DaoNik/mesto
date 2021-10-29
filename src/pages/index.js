@@ -42,8 +42,8 @@ const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
 popupAddFormValid.enableValidation();
 
 function createNewCard(nameCard, imgCard, templateSelector, popup) {
-  const data = { nameCard, imgCard, templateSelector, popup };
-  const cardElement = new Card(data, ({ link, name }) => {
+  const data = { nameCard, imgCard };
+  const cardElement = new Card(data, templateSelector, ({ link, name }) => {
     popup.open({ link, name });
   });
   const galleryCard = cardElement.generateValue();
