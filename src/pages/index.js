@@ -15,7 +15,18 @@ import FormValidator from "../components/FormValidator.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 import "../index.css";
+
+const api = new Api({
+  url: "https://nomoreparties.co/v1/cohort-29/users/me",
+  headers: {
+    authorization: "965be665-caac-4684-953a-3ef75da5404d",
+    "Content-Type": "application/json"
+  }
+});
+
+api.getUserInfo();
 
 const userInfo = new UserInfo({
   userSelector: ".profile__title",
