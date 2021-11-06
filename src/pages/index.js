@@ -3,6 +3,7 @@ import {
   openedButtonAdd,
   popupEditForm,
   popupAddForm,
+  popupUpdateAvatarForm,
   nameInput,
   jobInput,
   configValidation,
@@ -46,9 +47,21 @@ const userInfo = new UserInfo({
   infoSelector: ".profile__subtitle"
 });
 
+const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", data => {
+  const profileAvatar = document.querySelector(".profile__avatar");
+  profileAvatar.src = data.link;
+  userApi.updateAvatar(data.link);
+});
+popupUpdateAvatar.setEventListeners();
+
+const popupAvatar = document.querySelector(".profile__container-avatar");
+popupAvatar.addEventListener("click", () => {
+  popupUpdateAvatar.open();
+  popupUpdateAvatarFormValid.enableValidation();
+});
+
 const popupEdit = new PopupWithForm(".popup_edit", data => {
   userInfo.setUserInfo(data);
-  debugger;
   newUserInfo.addNewUserInfo();
 });
 
@@ -69,20 +82,16 @@ const popupEditFormValid = new FormValidator(configValidation, popupEditForm);
 popupEditFormValid.enableValidation();
 const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
 popupAddFormValid.enableValidation();
+const popupUpdateAvatarFormValid = new FormValidator(
+  configValidation,
+  popupUpdateAvatarForm
+);
+popupUpdateAvatarFormValid.enableValidation();
 
-function createNewCard(
-  nameCard,
-  imgCard,
-  likes,
-  id,
-  ownerId,
-  apiDeleteCard,
-  templateSelector,
-  popup
-) {
-  const data = { nameCard, imgCard, likes, id, ownerId, popupConfirm };
+function createNewCard(card, apiDeleteCard, templateSelector, popup) {
   const cardElement = new Card(
-    data,
+    card,
+    popupConfirm,
     apiDeleteCard,
     templateSelector,
     ({ link, name }) => {
@@ -116,11 +125,7 @@ cardApi.addCards().then(cards => {
       items: cards,
       renderer: cardItem => {
         const galleryCard = createNewCard(
-          cardItem.name,
-          cardItem.link,
-          cardItem.likes.length,
-          cardItem._id,
-          cardItem.owner._id,
+          cardItem,
           apiDeleteCard,
           "#template-card",
           popupView

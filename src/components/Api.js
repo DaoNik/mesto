@@ -60,17 +60,37 @@ export default class Api {
       })
       .then(card => {
         const newCard = createNewCard(
-          card.name,
-          card.link,
-          card.likes.length,
-          card._id,
-          card.owner._id,
+          card,
           apiDeleteCard,
           "#template-card",
           popupView
         );
         galleryCards.append(newCard);
       });
+  }
+
+  updateAvatar(avatar) {
+    return fetch(`${this._url}/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: avatar
+      })
+    });
+  }
+
+  addLike(cardId) {
+    return fetch(`${this._url}/likes/${cardId}`, {
+      method: "PUT",
+      headers: this._headers
+    });
+  }
+
+  deleteLike(cardId) {
+    return fetch(`${this._url}/likes/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers
+    });
   }
 
   deleteCard(cardId) {

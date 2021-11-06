@@ -4,6 +4,7 @@ export const popupEdit = document.querySelector(".popup_edit");
 export const popupAdd = document.querySelector(".popup_add");
 export const popupEditForm = popupEdit.querySelector(".popup__form");
 export const popupAddForm = popupAdd.querySelector(".popup__form");
+export const popupUpdateAvatarForm = document.forms.popupUpdateAvatarForm;
 export const nameInput = popupEdit.querySelector(".popup__input_value_name");
 export const jobInput = popupEdit.querySelector(".popup__input_value_job");
 export const configValidation = {

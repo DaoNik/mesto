@@ -22,8 +22,9 @@
                 <p class="profile__subtitle">Исследователь океана</p>
                 <button type="button" class="profile__button-edit" aria-label="Кнопка для открытия окна редактирования имени пользователя и рода деятельности"></button>
             </div>
-
-            <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="Аватар профиля">
+            <div class="profile__container-avatar">
+                <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="Аватар профиля">
+            </div>
             <button type="button" class="profile__button-add" aria-label="Кнопка для открытия окна добавления мест"></button>
         </section>
 
@@ -76,6 +77,18 @@
         <div class="popup__container popup__container_confirm">
             <h2 class="popup__title popup__title_confirm">Вы уверены?</h2>
             <button type="button" class="popup__btn popup__btn_confirm">Да</button>
+            <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия всплывающего окна"></button>  
+        </div>
+    </div>
+    <div class="popup popup_update-avatar">
+        <div class="popup__container">
+            <form class="popup__form" name="popupUpdateAvatarForm" novalidate>
+                <h2 class="popup__title">Обновить аватар</h2>
+                <input class="popup__input" id="avatar-link" name="link" type="url"
+                    placeholder="Ссылка на картинку" required>
+                <span class="popup__error" id="avatar-link-error"></span>
+                <button type="submit" class="popup__btn">Сохранить</button>
+            </form>
             <button type="button" class="popup__btn-closed" aria-label="Кнопка закрытия всплывающего окна"></button>  
         </div>
     </div>

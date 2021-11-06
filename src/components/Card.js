@@ -1,14 +1,22 @@
 export default class Card {
-  constructor(data, apiDeleteCard, templateSelector, handleCardClick) {
+  constructor(
+    card,
+    popupConfirm,
+    apiDeleteCard,
+    templateSelector,
+    handleCardClick
+  ) {
     this._templateSelector = templateSelector;
-    this._nameCard = data.nameCard;
-    this._imgCard = data.imgCard;
-    this._likes = data.likes;
-    this._id = data.id;
-    this._ownerId = data.ownerId;
-    this._popupConfirm = data.popupConfirm;
+    this._nameCard = card.name;
+    this._imgCard = card.link;
+    this._likesArray = card.likes;
+    this._likesNumber = card.likes.length;
+    this._id = card._id;
+    this._ownerId = card.owner._id;
+    this._popupConfirm = popupConfirm;
     this._handleCardClick = handleCardClick;
     this._apiDeleteCard = apiDeleteCard;
+    this._myId = "f8530b92003a644ff06c1637";
   }
 
   _getTemplate() {
@@ -24,7 +32,7 @@ export default class Card {
     cardImg.addEventListener("click", () => {
       this._handleCardClick({ link: this._imgCard, name: this._nameCard });
     });
-    if (this._ownerId != "f8530b92003a644ff06c1637") {
+    if (this._ownerId != this._myId) {
       cardTrash.remove();
     } else {
       cardTrash.addEventListener("click", () => {
@@ -41,11 +49,13 @@ export default class Card {
     cardLike.addEventListener("click", () => {
       cardLike.classList.toggle("gallery__card-btn_active");
       if (cardLike.classList.contains("gallery__card-btn_active")) {
-        this._likes++;
-        cardLike.setAttribute("data-before", this._likes);
+        this._likesNumber++;
+        cardLike.setAttribute("data-before", this._likesNumber);
+        this._apiDeleteCard.addLike(this._id);
       } else {
-        this._likes--;
-        cardLike.setAttribute("data-before", this._likes);
+        this._likesNumber--;
+        cardLike.setAttribute("data-before", this._likesNumber);
+        this._apiDeleteCard.deleteLike(this._id);
       }
     });
   }
@@ -56,7 +66,12 @@ export default class Card {
     const cardImg = this._element.querySelector(".gallery__card-img");
     const cardTrash = this._element.querySelector(".gallery__card-btn-trash");
     const cardLike = this._element.querySelector(".gallery__card-btn");
-    cardLike.setAttribute("data-before", this._likes);
+    this._likesArray.forEach(likeOwner => {
+      if (likeOwner._id == this._myId) {
+        cardLike.classList.add("gallery__card-btn_active");
+      }
+    });
+    cardLike.setAttribute("data-before", this._likesNumber);
     cardTitle.textContent = this._nameCard;
     cardImg.src = this._imgCard;
     cardImg.alt = this._nameCard;
