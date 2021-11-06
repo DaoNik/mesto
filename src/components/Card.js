@@ -1,10 +1,14 @@
 export default class Card {
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, apiDeleteCard, templateSelector, handleCardClick) {
     this._templateSelector = templateSelector;
     this._nameCard = data.nameCard;
     this._imgCard = data.imgCard;
     this._likes = data.likes;
+    this._id = data.id;
+    this._ownerId = data.ownerId;
+    this._popupConfirm = data.popupConfirm;
     this._handleCardClick = handleCardClick;
+    this._apiDeleteCard = apiDeleteCard;
   }
 
   _getTemplate() {
@@ -20,10 +24,20 @@ export default class Card {
     cardImg.addEventListener("click", () => {
       this._handleCardClick({ link: this._imgCard, name: this._nameCard });
     });
-    cardTrash.addEventListener("click", () => {
-      cardElement.remove();
-      cardElement = null;
-    });
+    if (this._ownerId != "f8530b92003a644ff06c1637") {
+      cardTrash.remove();
+    } else {
+      cardTrash.addEventListener("click", () => {
+        this._popupConfirm.open();
+        const buttonConfirm = document.querySelector(".popup__btn_confirm");
+        buttonConfirm.addEventListener("click", () => {
+          cardElement.remove();
+          cardElement = null;
+          this._apiDeleteCard.deleteCard(this._id);
+          this._popupConfirm.close();
+        });
+      });
+    }
     cardLike.addEventListener("click", () => {
       cardLike.classList.toggle("gallery__card-btn_active");
       if (cardLike.classList.contains("gallery__card-btn_active")) {

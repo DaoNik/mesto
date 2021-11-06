@@ -41,7 +41,7 @@ export default class Api {
     });
   }
 
-  addNewCard() {
+  addNewCard(createNewCard, apiDeleteCard, popupView, galleryCards) {
     return fetch(this._url, {
       method: "POST",
       headers: this._headers,
@@ -50,6 +50,33 @@ export default class Api {
         link: this._body.link,
         likes: this._body.likes
       })
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject("Произошла ошибка");
+      })
+      .then(card => {
+        const newCard = createNewCard(
+          card.name,
+          card.link,
+          card.likes.length,
+          card._id,
+          card.owner._id,
+          apiDeleteCard,
+          "#template-card",
+          popupView
+        );
+        galleryCards.append(newCard);
+      });
+  }
+
+  deleteCard(cardId) {
+    return fetch(`${this._url}/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers
     });
   }
 

@@ -12,11 +12,15 @@ import {
 import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import FormValidator from "../components/FormValidator.js";
+import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import "../index.css";
+
+const popupConfirm = new Popup(".popup_confirm");
+popupConfirm.setEventListeners();
 
 const userApi = new Api({
   url: "https://nomoreparties.co/v1/cohort-29/users/me",
@@ -66,17 +70,39 @@ popupEditFormValid.enableValidation();
 const popupAddFormValid = new FormValidator(configValidation, popupAddForm);
 popupAddFormValid.enableValidation();
 
-function createNewCard(nameCard, imgCard, likes, templateSelector, popup) {
-  const data = { nameCard, imgCard, likes };
-  const cardElement = new Card(data, templateSelector, ({ link, name }) => {
-    popup.open({ link, name });
-  });
+function createNewCard(
+  nameCard,
+  imgCard,
+  likes,
+  id,
+  ownerId,
+  apiDeleteCard,
+  templateSelector,
+  popup
+) {
+  const data = { nameCard, imgCard, likes, id, ownerId, popupConfirm };
+  const cardElement = new Card(
+    data,
+    apiDeleteCard,
+    templateSelector,
+    ({ link, name }) => {
+      popup.open({ link, name });
+    }
+  );
   const galleryCard = cardElement.generateValue();
 
   return galleryCard;
 }
 
 const cardApi = new Api({
+  url: "https://nomoreparties.co/v1/cohort-29/cards",
+  headers: {
+    authorization: "965be665-caac-4684-953a-3ef75da5404d",
+    "Content-Type": "application/json"
+  }
+});
+
+const apiDeleteCard = new Api({
   url: "https://nomoreparties.co/v1/cohort-29/cards",
   headers: {
     authorization: "965be665-caac-4684-953a-3ef75da5404d",
@@ -93,6 +119,9 @@ cardApi.addCards().then(cards => {
           cardItem.name,
           cardItem.link,
           cardItem.likes.length,
+          cardItem._id,
+          cardItem.owner._id,
+          apiDeleteCard,
           "#template-card",
           popupView
         );
@@ -106,14 +135,6 @@ cardApi.addCards().then(cards => {
 });
 
 const popupAdd = new PopupWithForm(".popup_add", data => {
-  const newCard = createNewCard(
-    data.name,
-    data.link,
-    0,
-    "#template-card",
-    popupView
-  );
-  galleryCards.append(newCard);
   const newCardApi = new Api({
     url: "https://nomoreparties.co/v1/cohort-29/cards",
     headers: {
@@ -126,7 +147,7 @@ const popupAdd = new PopupWithForm(".popup_add", data => {
       likes: 0
     }
   });
-  newCardApi.addNewCard();
+  newCardApi.addNewCard(createNewCard, apiDeleteCard, popupView, galleryCards);
 });
 
 popupAdd.setEventListeners();
