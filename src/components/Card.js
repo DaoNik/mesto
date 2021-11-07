@@ -32,7 +32,7 @@ export default class Card {
     cardImg.addEventListener("click", () => {
       this._handleCardClick({ link: this._imgCard, name: this._nameCard });
     });
-    if (this._ownerId != this._myId) {
+    if (this._ownerId !== this._myId) {
       cardTrash.remove();
     } else {
       cardTrash.addEventListener("click", () => {
@@ -67,7 +67,7 @@ export default class Card {
     const cardTrash = this._element.querySelector(".gallery__card-btn-trash");
     const cardLike = this._element.querySelector(".gallery__card-btn");
     this._likesArray.forEach(likeOwner => {
-      if (likeOwner._id == this._myId) {
+      if (likeOwner._id === this._myId) {
         cardLike.classList.add("gallery__card-btn_active");
       }
     });

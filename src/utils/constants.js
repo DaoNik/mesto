@@ -1,4 +1,6 @@
-export const openedButtonEdit = document.querySelector(".profile__button-edit");
+export const openEditProfileBtn = document.querySelector(
+  ".profile__button-edit"
+);
 export const openedButtonAdd = document.querySelector(".profile__button-add");
 export const popupEdit = document.querySelector(".popup_edit");
 export const popupAdd = document.querySelector(".popup_add");
@@ -14,3 +16,4 @@ export const configValidation = {
   inputErrorClass: "popup__input_type_error"
 };
 export const galleryCards = document.querySelector(".gallery__cards");
+export const profileAvatar = document.querySelector(".profile__avatar");

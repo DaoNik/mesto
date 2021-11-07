@@ -5,17 +5,21 @@ export default class Api {
     this._body = options.body;
   }
 
+  _checkRequest(res) {
+    if (res.ok) {
+      return res.json();
+    }
+
+    return Promise.reject("Произошла ошибка");
+  }
+
   getUserInfo() {
     return fetch(this._url, {
       method: "GET",
       headers: this._headers
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject("Произошла ошибка");
+        return this._checkRequest(res);
       })
       .then(res => {
         this._title = document.querySelector(".profile__title");
@@ -33,15 +37,18 @@ export default class Api {
       method: "GET",
       headers: this._headers
     }).then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-      return Promise.reject("Произошла ошибка");
+      return this._checkRequest(res);
     });
   }
 
-  addNewCard(createNewCard, apiDeleteCard, popupView, galleryCards) {
+  addNewCard(
+    createNewCard,
+    apiDeleteCard,
+    popupView,
+    galleryCards,
+    renderCreating
+  ) {
+    renderCreating(true);
     return fetch(this._url, {
       method: "POST",
       headers: this._headers,
@@ -52,11 +59,7 @@ export default class Api {
       })
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject("Произошла ошибка");
+        return this._checkRequest(res);
       })
       .then(card => {
         const newCard = createNewCard(
@@ -65,8 +68,9 @@ export default class Api {
           "#template-card",
           popupView
         );
-        galleryCards.append(newCard);
-      });
+        galleryCards.prepend(newCard);
+      })
+      .finally(renderCreating(false));
   }
 
   updateAvatar(avatar) {
@@ -76,6 +80,8 @@ export default class Api {
       body: JSON.stringify({
         avatar: avatar
       })
+    }).then(res => {
+      return this._checkRequest(res);
     });
   }
 
@@ -83,6 +89,8 @@ export default class Api {
     return fetch(`${this._url}/likes/${cardId}`, {
       method: "PUT",
       headers: this._headers
+    }).then(res => {
+      return this._checkRequest(res);
     });
   }
 
@@ -90,6 +98,8 @@ export default class Api {
     return fetch(`${this._url}/likes/${cardId}`, {
       method: "DELETE",
       headers: this._headers
+    }).then(res => {
+      return this._checkRequest(res);
     });
   }
 
@@ -97,6 +107,8 @@ export default class Api {
     return fetch(`${this._url}/${cardId}`, {
       method: "DELETE",
       headers: this._headers
+    }).then(res => {
+      return this._checkRequest(res);
     });
   }
 
@@ -108,6 +120,8 @@ export default class Api {
         name: this._body.name.value,
         about: this._body.about.value
       })
+    }).then(res => {
+      return this._checkRequest(res);
     });
   }
 }

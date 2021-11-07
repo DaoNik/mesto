@@ -1,5 +1,5 @@
 import {
-  openedButtonEdit,
+  openEditProfileBtn,
   openedButtonAdd,
   popupEditForm,
   popupAddForm,
@@ -7,7 +7,8 @@ import {
   nameInput,
   jobInput,
   configValidation,
-  galleryCards
+  galleryCards,
+  profileAvatar
 } from "../utils/constants.js";
 
 import Card from "../components/Card.js";
@@ -20,10 +21,19 @@ import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import "../index.css";
 
+function renderCreating(isCreating) {
+  const buttonAdd = document.querySelector(".popup__btn-add");
+  if (isCreating) {
+    buttonAdd.textContent = "Создание";
+  } else {
+    buttonAdd.textContent = "Создать";
+  }
+}
+
 const popupConfirm = new Popup(".popup_confirm");
 popupConfirm.setEventListeners();
 
-const userApi = new Api({
+const api = new Api({
   url: "https://nomoreparties.co/v1/cohort-29/users/me",
   headers: {
     authorization: "965be665-caac-4684-953a-3ef75da5404d",
@@ -31,7 +41,7 @@ const userApi = new Api({
   }
 });
 
-userApi.getUserInfo();
+api.getUserInfo();
 
 const newUserInfo = new Api({
   url: "https://nomoreparties.co/v1/cohort-29/users/me",
@@ -48,16 +58,14 @@ const userInfo = new UserInfo({
 });
 
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", data => {
-  const profileAvatar = document.querySelector(".profile__avatar");
   profileAvatar.src = data.link;
-  userApi.updateAvatar(data.link);
+  api.updateAvatar(data.link);
 });
 popupUpdateAvatar.setEventListeners();
 
-const popupAvatar = document.querySelector(".profile__container-avatar");
-popupAvatar.addEventListener("click", () => {
+const openPopupAvatarBtn = document.querySelector(".profile__container-avatar");
+openPopupAvatarBtn.addEventListener("click", () => {
   popupUpdateAvatar.open();
-  popupUpdateAvatarFormValid.enableValidation();
 });
 
 const popupEdit = new PopupWithForm(".popup_edit", data => {
@@ -67,11 +75,10 @@ const popupEdit = new PopupWithForm(".popup_edit", data => {
 
 popupEdit.setEventListeners();
 
-openedButtonEdit.addEventListener("click", () => {
+openEditProfileBtn.addEventListener("click", () => {
   const popupEditValues = userInfo.getUserInfo();
   nameInput.value = popupEditValues.user;
   jobInput.value = popupEditValues.info;
-  popupEditFormValid.enableValidation();
   popupEdit.open();
 });
 
@@ -152,7 +159,13 @@ const popupAdd = new PopupWithForm(".popup_add", data => {
       likes: 0
     }
   });
-  newCardApi.addNewCard(createNewCard, apiDeleteCard, popupView, galleryCards);
+  newCardApi.addNewCard(
+    createNewCard,
+    apiDeleteCard,
+    popupView,
+    galleryCards,
+    renderCreating
+  );
 });
 
 popupAdd.setEventListeners();
