@@ -8,13 +8,16 @@ import {
   jobInput,
   configValidation,
   galleryCards,
-  profileAvatar
+  profileTitle,
+  profileSubtitle,
+  profileAvatar,
+  buttonConfirm
 } from "../utils/constants.js";
 
 import Card from "../components/Card.js";
 import Section from "../components/Section.js";
 import FormValidator from "../components/FormValidator.js";
-import Popup from "../components/Popup.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -30,27 +33,61 @@ function renderCreating(isCreating) {
   }
 }
 
-const popupConfirm = new Popup(".popup_confirm");
-popupConfirm.setEventListeners();
+const popupConfirm = new PopupWithConfirmation(".popup_confirm");
+popupConfirm.setEventListeners(buttonConfirm, (card, id) => {
+  card.remove();
+  card = null;
+  api
+    .deleteCard(id)
+    .then(res => {
+      popupConfirm.close();
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+});
 
 const api = new Api({
-  url: "https://nomoreparties.co/v1/cohort-29/users/me",
+  url: "https://nomoreparties.co/v1/cohort-29/",
   headers: {
     authorization: "965be665-caac-4684-953a-3ef75da5404d",
     "Content-Type": "application/json"
   }
 });
 
-api.getUserInfo();
+api
+  .getUserInfo()
+  .then(res => {
+    profileTitle.textContent = res.name;
+    profileSubtitle.textContent = res.about;
+    profileAvatar.src = res.avatar;
+    profileAvatar._id = res._id;
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${err}`);
+  });
 
-const newUserInfo = new Api({
-  url: "https://nomoreparties.co/v1/cohort-29/users/me",
-  headers: {
-    authorization: "965be665-caac-4684-953a-3ef75da5404d",
-    "Content-Type": "application/json"
-  },
-  body: { name: nameInput, about: jobInput }
-});
+function handleAddLikeCard(cardLike, id) {
+  api
+    .addLike(id)
+    .then(card => {
+      cardLike.setAttribute("data-before", card.likes.length);
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+}
+
+function handleDeleteLikeCard(cardLike, id) {
+  api
+    .deleteLike(id)
+    .then(card => {
+      cardLike.setAttribute("data-before", card.likes.length);
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
+}
 
 const userInfo = new UserInfo({
   userSelector: ".profile__title",
@@ -59,7 +96,9 @@ const userInfo = new UserInfo({
 
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", data => {
   profileAvatar.src = data.link;
-  api.updateAvatar(data.link);
+  api.updateAvatar(data.link).catch(err => {
+    console.log(`Ошибка: ${err}`);
+  });
 });
 popupUpdateAvatar.setEventListeners();
 
@@ -69,8 +108,14 @@ openPopupAvatarBtn.addEventListener("click", () => {
 });
 
 const popupEdit = new PopupWithForm(".popup_edit", data => {
-  userInfo.setUserInfo(data);
-  newUserInfo.addNewUserInfo();
+  api
+    .addNewUserInfo(nameInput, jobInput)
+    .then(res => {
+      userInfo.setUserInfo(data);
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    });
 });
 
 popupEdit.setEventListeners();
@@ -95,12 +140,14 @@ const popupUpdateAvatarFormValid = new FormValidator(
 );
 popupUpdateAvatarFormValid.enableValidation();
 
-function createNewCard(card, apiDeleteCard, templateSelector, popup) {
+function createNewCard(card, templateSelector, popup) {
   const cardElement = new Card(
     card,
-    popupConfirm,
-    apiDeleteCard,
+    handleAddLikeCard,
+    handleDeleteLikeCard,
+    profileAvatar._id,
     templateSelector,
+    popupConfirm,
     ({ link, name }) => {
       popup.open({ link, name });
     }
@@ -110,62 +157,43 @@ function createNewCard(card, apiDeleteCard, templateSelector, popup) {
   return galleryCard;
 }
 
-const cardApi = new Api({
-  url: "https://nomoreparties.co/v1/cohort-29/cards",
-  headers: {
-    authorization: "965be665-caac-4684-953a-3ef75da5404d",
-    "Content-Type": "application/json"
-  }
-});
-
-const apiDeleteCard = new Api({
-  url: "https://nomoreparties.co/v1/cohort-29/cards",
-  headers: {
-    authorization: "965be665-caac-4684-953a-3ef75da5404d",
-    "Content-Type": "application/json"
-  }
-});
-
-cardApi.addCards().then(cards => {
-  const cardList = new Section(
-    {
-      items: cards,
-      renderer: cardItem => {
-        const galleryCard = createNewCard(
-          cardItem,
-          apiDeleteCard,
-          "#template-card",
-          popupView
-        );
-        cardList.addItem(galleryCard);
-      }
-    },
-    ".gallery__cards"
-  );
-
-  cardList.renderItems();
-});
+api
+  .addCards()
+  .then(cards => {
+    const cardList = new Section(
+      {
+        items: cards,
+        renderer: cardItem => {
+          const galleryCard = createNewCard(
+            cardItem,
+            "#template-card",
+            popupView
+          );
+          cardList.addItem(galleryCard);
+        }
+      },
+      ".gallery__cards"
+    );
+    return cardList;
+  })
+  .then(cardList => {
+    cardList.renderItems();
+  })
+  .catch(err => {
+    console.log(`Ошибка: ${err}`);
+  });
 
 const popupAdd = new PopupWithForm(".popup_add", data => {
-  const newCardApi = new Api({
-    url: "https://nomoreparties.co/v1/cohort-29/cards",
-    headers: {
-      authorization: "965be665-caac-4684-953a-3ef75da5404d",
-      "Content-Type": "application/json"
-    },
-    body: {
-      name: data.name,
-      link: data.link,
-      likes: 0
-    }
-  });
-  newCardApi.addNewCard(
-    createNewCard,
-    apiDeleteCard,
-    popupView,
-    galleryCards,
-    renderCreating
-  );
+  api
+    .addNewCard({ name: data.name, link: data.link, likes: 0 }, renderCreating)
+    .then(card => {
+      const newCard = createNewCard(card, "#template-card", popupView);
+      galleryCards.prepend(newCard);
+    })
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(renderCreating(false));
 });
 
 popupAdd.setEventListeners();

@@ -2,7 +2,6 @@ export default class Api {
   constructor(options) {
     this._url = options.url;
     this._headers = options.headers;
-    this._body = options.body;
   }
 
   _checkRequest(res) {
@@ -14,26 +13,7 @@ export default class Api {
   }
 
   getUserInfo() {
-    return fetch(this._url, {
-      method: "GET",
-      headers: this._headers
-    })
-      .then(res => {
-        return this._checkRequest(res);
-      })
-      .then(res => {
-        this._title = document.querySelector(".profile__title");
-        this._subtitle = document.querySelector(".profile__subtitle");
-        this._avatar = document.querySelector(".profile__avatar");
-
-        this._title.textContent = res.name;
-        this._subtitle.textContent = res.about;
-        this._avatar.src = res.avatar;
-      });
-  }
-
-  addCards() {
-    return fetch(this._url, {
+    return fetch(`${this._url}users/me`, {
       method: "GET",
       headers: this._headers
     }).then(res => {
@@ -41,36 +21,41 @@ export default class Api {
     });
   }
 
-  addNewCard(
-    createNewCard,
-    apiDeleteCard,
-    popupView,
-    galleryCards,
-    renderCreating
-  ) {
+  addNewUserInfo(nameInput, aboutInput) {
+    return fetch(`${this._url}users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: nameInput.value,
+        about: aboutInput.value
+      })
+    }).then(res => {
+      return this._checkRequest(res);
+    });
+  }
+
+  addCards() {
+    return fetch(`${this._url}cards`, {
+      method: "GET",
+      headers: this._headers
+    }).then(res => {
+      return this._checkRequest(res);
+    });
+  }
+
+  addNewCard({ name, link, likes }, renderCreating) {
     renderCreating(true);
-    return fetch(this._url, {
+    return fetch(`${this._url}cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: this._body.name,
-        link: this._body.link,
-        likes: this._body.likes
+        name: name,
+        link: link,
+        likes: likes
       })
-    })
-      .then(res => {
-        return this._checkRequest(res);
-      })
-      .then(card => {
-        const newCard = createNewCard(
-          card,
-          apiDeleteCard,
-          "#template-card",
-          popupView
-        );
-        galleryCards.prepend(newCard);
-      })
-      .finally(renderCreating(false));
+    }).then(res => {
+      return this._checkRequest(res);
+    });
   }
 
   updateAvatar(avatar) {
@@ -86,7 +71,7 @@ export default class Api {
   }
 
   addLike(cardId) {
-    return fetch(`${this._url}/likes/${cardId}`, {
+    return fetch(`${this._url}cards/likes/${cardId}`, {
       method: "PUT",
       headers: this._headers
     }).then(res => {
@@ -95,7 +80,7 @@ export default class Api {
   }
 
   deleteLike(cardId) {
-    return fetch(`${this._url}/likes/${cardId}`, {
+    return fetch(`${this._url}cards/likes/${cardId}`, {
       method: "DELETE",
       headers: this._headers
     }).then(res => {
@@ -104,22 +89,9 @@ export default class Api {
   }
 
   deleteCard(cardId) {
-    return fetch(`${this._url}/${cardId}`, {
+    return fetch(`${this._url}cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers
-    }).then(res => {
-      return this._checkRequest(res);
-    });
-  }
-
-  addNewUserInfo() {
-    return fetch(this._url, {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        name: this._body.name.value,
-        about: this._body.about.value
-      })
     }).then(res => {
       return this._checkRequest(res);
     });
