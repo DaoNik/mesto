@@ -20,3 +20,4 @@ export const profileAvatar = document.querySelector(".profile__avatar");
 export const profileTitle = document.querySelector(".profile__title");
 export const profileSubtitle = document.querySelector(".profile__subtitle");
 export const buttonConfirm = document.querySelector(".popup__btn_confirm");
+export const buttonUpdateAvatar = document.querySelector(".popup__btn-update");

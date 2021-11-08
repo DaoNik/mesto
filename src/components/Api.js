@@ -58,8 +58,9 @@ export default class Api {
     });
   }
 
-  updateAvatar(avatar) {
-    return fetch(`${this._url}/avatar`, {
+  updateAvatar(avatar, renderSaving) {
+    renderSaving(true);
+    return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -88,7 +89,8 @@ export default class Api {
     });
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, renderDeleting) {
+    renderDeleting(true);
     return fetch(`${this._url}cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers

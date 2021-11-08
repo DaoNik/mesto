@@ -11,7 +11,8 @@ import {
   profileTitle,
   profileSubtitle,
   profileAvatar,
-  buttonConfirm
+  buttonConfirm,
+  buttonUpdateAvatar
 } from "../utils/constants.js";
 
 import Card from "../components/Card.js";
@@ -27,9 +28,25 @@ import "../index.css";
 function renderCreating(isCreating) {
   const buttonAdd = document.querySelector(".popup__btn-add");
   if (isCreating) {
-    buttonAdd.textContent = "Создание";
+    buttonAdd.textContent = "Создание...";
   } else {
     buttonAdd.textContent = "Создать";
+  }
+}
+
+function renderDeleting(isDeleting) {
+  if (isDeleting) {
+    buttonConfirm.textContent = "Удаление...";
+  } else {
+    buttonConfirm.textContent = "Да";
+  }
+}
+
+function renderSaving(isSaving) {
+  if (isSaving) {
+    buttonUpdateAvatar.textContent = "Сохранение...";
+  } else {
+    buttonUpdateAvatar.textContent = "Сохранить";
   }
 }
 
@@ -38,13 +55,14 @@ popupConfirm.setEventListeners(buttonConfirm, (card, id) => {
   card.remove();
   card = null;
   api
-    .deleteCard(id)
+    .deleteCard(id, renderDeleting)
     .then(res => {
       popupConfirm.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
-    });
+    })
+    .finally(renderDeleting(false));
 });
 
 const api = new Api({
@@ -96,9 +114,12 @@ const userInfo = new UserInfo({
 
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", data => {
   profileAvatar.src = data.link;
-  api.updateAvatar(data.link).catch(err => {
-    console.log(`Ошибка: ${err}`);
-  });
+  api
+    .updateAvatar(data.link, renderSaving)
+    .catch(err => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(renderSaving(false));
 });
 popupUpdateAvatar.setEventListeners();
 
