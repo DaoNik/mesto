@@ -1,3 +1,5 @@
+import { buttonAdd } from "../utils/constants";
+
 export default class Api {
   constructor(options) {
     this._url = options.url;
@@ -43,8 +45,8 @@ export default class Api {
     });
   }
 
-  addNewCard({ name, link, likes }, renderCreating) {
-    renderCreating(true);
+  addNewCard({ name, link, likes }, renderCreating, button) {
+    renderCreating(true, button);
     return fetch(`${this._url}cards`, {
       method: "POST",
       headers: this._headers,
@@ -58,8 +60,8 @@ export default class Api {
     });
   }
 
-  updateAvatar(avatar, renderSaving) {
-    renderSaving(true);
+  updateAvatar(avatar, renderSaving, button) {
+    renderSaving(true, button);
     return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
@@ -89,8 +91,8 @@ export default class Api {
     });
   }
 
-  deleteCard(cardId, renderDeleting) {
-    renderDeleting(true);
+  deleteCard(cardId, renderDeleting, button) {
+    renderDeleting(true, button);
     return fetch(`${this._url}cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers

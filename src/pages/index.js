@@ -7,12 +7,12 @@ import {
   nameInput,
   jobInput,
   configValidation,
-  galleryCards,
   profileTitle,
   profileSubtitle,
   profileAvatar,
   buttonConfirm,
-  buttonUpdateAvatar
+  buttonUpdateAvatar,
+  buttonAdd
 } from "../utils/constants.js";
 
 import Card from "../components/Card.js";
@@ -25,45 +25,28 @@ import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import "../index.css";
 
-function renderCreating(isCreating) {
-  const buttonAdd = document.querySelector(".popup__btn-add");
-  if (isCreating) {
-    buttonAdd.textContent = "Создание...";
-  } else {
-    buttonAdd.textContent = "Создать";
-  }
-}
-
-function renderDeleting(isDeleting) {
-  if (isDeleting) {
-    buttonConfirm.textContent = "Удаление...";
-  } else {
-    buttonConfirm.textContent = "Да";
-  }
-}
-
-function renderSaving(isSaving) {
-  if (isSaving) {
-    buttonUpdateAvatar.textContent = "Сохранение...";
-  } else {
-    buttonUpdateAvatar.textContent = "Сохранить";
-  }
-}
+import {
+  renderCreating,
+  renderDeleting,
+  renderSaving
+} from "../utils/utils.js";
 
 const popupConfirm = new PopupWithConfirmation(".popup_confirm");
-popupConfirm.setEventListeners(buttonConfirm, (card, id) => {
+popupConfirm.setDeleteCardHandler((card, id) => {
   card.remove();
   card = null;
   api
-    .deleteCard(id, renderDeleting)
+    .deleteCard(id, renderDeleting, buttonConfirm)
     .then(res => {
       popupConfirm.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
     })
-    .finally(renderDeleting(false));
+    .finally(renderDeleting(false, buttonConfirm));
 });
+
+popupConfirm.setEventListeners(buttonConfirm);
 
 const api = new Api({
   url: "https://nomoreparties.co/v1/cohort-29/",
@@ -115,11 +98,14 @@ const userInfo = new UserInfo({
 const popupUpdateAvatar = new PopupWithForm(".popup_update-avatar", data => {
   profileAvatar.src = data.link;
   api
-    .updateAvatar(data.link, renderSaving)
+    .updateAvatar(data.link, renderSaving, buttonUpdateAvatar)
+    .then(res => {
+      popupUpdateAvatar.close();
+    })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
     })
-    .finally(renderSaving(false));
+    .finally(renderSaving(false, buttonUpdateAvatar));
 });
 popupUpdateAvatar.setEventListeners();
 
@@ -133,6 +119,7 @@ const popupEdit = new PopupWithForm(".popup_edit", data => {
     .addNewUserInfo(nameInput, jobInput)
     .then(res => {
       userInfo.setUserInfo(data);
+      popupEdit.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
@@ -178,27 +165,19 @@ function createNewCard(card, templateSelector, popup) {
   return galleryCard;
 }
 
+const cardList = new Section(".gallery__cards");
+
 api
   .addCards()
   .then(cards => {
-    const cardList = new Section(
-      {
-        items: cards,
-        renderer: cardItem => {
-          const galleryCard = createNewCard(
-            cardItem,
-            "#template-card",
-            popupView
-          );
-          cardList.addItem(galleryCard);
-        }
-      },
-      ".gallery__cards"
-    );
-    return cardList;
+    const arrayCards = cards.map(cardItem => {
+      const galleryCard = createNewCard(cardItem, "#template-card", popupView);
+      return galleryCard;
+    });
+    return Promise.all(arrayCards);
   })
-  .then(cardList => {
-    cardList.renderItems();
+  .then(arrayCards => {
+    cardList.renderItems(arrayCards);
   })
   .catch(err => {
     console.log(`Ошибка: ${err}`);
@@ -206,15 +185,20 @@ api
 
 const popupAdd = new PopupWithForm(".popup_add", data => {
   api
-    .addNewCard({ name: data.name, link: data.link, likes: 0 }, renderCreating)
+    .addNewCard(
+      { name: data.name, link: data.link, likes: 0 },
+      renderCreating,
+      buttonAdd
+    )
     .then(card => {
       const newCard = createNewCard(card, "#template-card", popupView);
-      galleryCards.prepend(newCard);
+      cardList.addItem(newCard);
+      popupAdd.close();
     })
     .catch(err => {
       console.log(`Ошибка: ${err}`);
     })
-    .finally(renderCreating(false));
+    .finally(renderCreating(false, buttonAdd));
 });
 
 popupAdd.setEventListeners();
