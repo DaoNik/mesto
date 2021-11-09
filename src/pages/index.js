@@ -56,18 +56,6 @@ const api = new Api({
   }
 });
 
-api
-  .getUserInfo()
-  .then(res => {
-    profileTitle.textContent = res.name;
-    profileSubtitle.textContent = res.about;
-    profileAvatar.src = res.avatar;
-    profileAvatar._id = res._id;
-  })
-  .catch(err => {
-    console.log(`Ошибка: ${err}`);
-  });
-
 function handleAddLikeCard(cardLike, id) {
   api
     .addLike(id)
@@ -165,19 +153,25 @@ function createNewCard(card, templateSelector, popup) {
   return galleryCard;
 }
 
-const cardList = new Section(".gallery__cards");
+const cardList = new Section(".gallery__cards", items => {
+  items.forEach(item => {
+    const galleryCard = createNewCard(item, "#template-card", popupView);
+    cardList.addItem(galleryCard);
+  });
+});
 
-api
-  .addCards()
-  .then(cards => {
-    const arrayCards = cards.map(cardItem => {
-      const galleryCard = createNewCard(cardItem, "#template-card", popupView);
-      return galleryCard;
-    });
-    return Promise.all(arrayCards);
+Promise.all([api.getUserInfo(), api.addCards()])
+  .then(res => {
+    const user = res[0];
+    const cards = res[1];
+    profileTitle.textContent = user.name;
+    profileSubtitle.textContent = user.about;
+    profileAvatar.src = user.avatar;
+    profileAvatar._id = user._id;
+    return cards;
   })
-  .then(arrayCards => {
-    cardList.renderItems(arrayCards);
+  .then(cards => {
+    cardList.renderItems(cards);
   })
   .catch(err => {
     console.log(`Ошибка: ${err}`);
